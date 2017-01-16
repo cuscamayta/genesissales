@@ -55,7 +55,7 @@
                     <input type="text" id="address" class="form-control" ngfocus ng-model="editwarehouse.address" required>
 
                     <label for="city">Ciudad <span class="required">*</span></label>
-                    <input type="text" id="city" class="form-control" ngfocus ng-model="editwarehouse.city" required ng-enter="savewarehouse()">
+                    <input type="text" id="city" class="form-control" ngfocus ng-model="editwarehouse.city" validate="text-number" required>
 
                     <label for="detail">Detalle </label>
                     <input type="text" id="detail" class="form-control" ngfocus ng-model="editwarehouse.detail" required>
@@ -72,19 +72,19 @@
 </div>
 <div id="modaldeletewarehouse" class="modal fade bs-example-modal-sm" tabindex="-1" warehouse="dialog" aria-hidden="true"
     style="display: none;">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Eliminar almacen</h4>
-            </div>
-            <div class="modal-body">
-                <p>¿Esta seguro de eliminar el registro?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
-                <button type="button" class="btn btn-danger" ng-click="deletewarehouse()" title="Eliminar">Eliminar</button>
-            </div>
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Eliminar almacen</h4>
+        </div>
+        <div class="modal-body">
+            <p>¿Esta seguro de eliminar el registro?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+            <button type="button" class="btn btn-danger" ng-click="deletewarehouse()" title="Eliminar">Eliminar</button>
         </div>
     </div>
+</div>
 </div>

@@ -1,8 +1,15 @@
-app.controller('WarehouseController', function ($scope, WarehouseService) {
+app.controller('WarehouseController', function ($scope, WarehouseService, CommonService) {
     init();
     function init() {
         getwarehouses();
         datawarehouse();
+
+        $('#city').autocomplete({
+            lookup: CommonService.cityarray(),
+            onSelect: function (item) {
+                $scope.editwarehouse.city = item.value;
+            }
+        });
     }
 
     function datawarehouse() {
@@ -72,7 +79,7 @@ app.controller('WarehouseController', function ($scope, WarehouseService) {
 
     $scope.validatecontrols = function () {
         return $scope.editwarehouse == null || $scope.editwarehouse.address == null
-            || $scope.editwarehouse.title == null;
+            || $scope.editwarehouse.title == null || $scope.editwarehouse.city == null;
     };
 
     $scope.newwarehouse = function () {

@@ -7,9 +7,8 @@ app.service('CommonService', function ($http, $q) {
 
     function makes() {
         var make = {
-            Suzuki: "Suzuki", Toyota: "Toyota", MercedesBenz: "Mercedes Benz",
-            Nissan: "Nissan", Scania: "Scania", Volvo: "Volvo", Mitsubishi: "Mitsubishi",
-            Isuzu: "Isuzu", Hino: "Hino", Volkswagen: "Volkswagen"
+            Samsung: "Samsung", Apple: "Apple", Toshiba: "Toshiba",
+            HP: "HP", DELL: "DELL"
         };
         return make;
     }
@@ -34,5 +33,34 @@ app.service('CommonService', function ($http, $q) {
             return { value: value, data: key };
         });
         return colorsArray;
+    };
+
+    function cities() {
+        var color = {
+            SantaCruz: "Santa Cruz", LaPaz: "La Paz", Beni: "Beni", Cochabamba: "Cochabamba",
+            Tarija: "Tarija", Oruro: "Oruro", Potosi: "Potosi", Pando: "Pando", Chuquisaca: "Chuquisaca"
+        };
+        return color;
+    }
+
+    this.cityarray = function () {
+        var cityarray = $.map(cities(), function (value, key) {
+            return { value: value, data: key };
+        });
+        return cityarray;
+    };
+
+    function typeitem() {
+        var color = {
+            Celular: "Celular", Electrodomestico: "Electrodomestico", Repuesto: "Repuesto"
+        };
+        return color;
+    }
+
+    this.typeitemarray = function () {
+        var typeitemarray = $.map(typeitem(), function (value, key) {
+            return { value: value, data: key };
+        });
+        return typeitemarray;
     };
 });

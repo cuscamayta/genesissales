@@ -1,8 +1,7 @@
-app.controller('ItemController', function ($scope, ItemService, ItemtypeService, CommonService) {
+app.controller('ItemController', function ($scope, ItemService, CommonService) {
     init();
     function init() {
-        getitemtypes();
-        getitemes();
+        getitems();
         dataitem();
 
         $('#make').autocomplete({
@@ -12,10 +11,10 @@ app.controller('ItemController', function ($scope, ItemService, ItemtypeService,
             }
         });
 
-        $('#color').autocomplete({
-            lookup: CommonService.colorsarray(),
+        $('#type').autocomplete({
+            lookup: CommonService.typeitemarray(),
             onSelect: function (item) {
-                $scope.edititem.color = item.value;
+                $scope.edititem.type = item.value;
             }
         });
     }
@@ -28,30 +27,17 @@ app.controller('ItemController', function ($scope, ItemService, ItemtypeService,
         $scope.selecteditemtype = null;
     };
 
-    function getitemes() {
-        var response = ItemService.getitemes();
+    function getitems() {
+        var response = ItemService.getitems();
         response.then(function (res) {
             if (!res.isSuccess) {
                 toastr.error(res.message);
             }
-            else { $scope.itemes = res.data; }
-        });
-    }
-
-    function getitemtypes() {
-        var response = ItemtypeService.getitemtypes();
-        response.then(function (res) {
-            if (!res.isSuccess) {
-                toastr.error(res.message);
-            }
-            else { $scope.listitemtype = res.data; }
+            else { $scope.items = res.data; }
         });
     }
 
     $scope.saveitem = function () {
-        $scope.edititem;
-        $scope.edititem.iditemtype = $scope.selecteditemtype.id;
-
         if ($scope.edititem.id == 0) {
             var response = ItemService.saveitem($scope.edititem);
             response.then(function (res) {
@@ -59,7 +45,7 @@ app.controller('ItemController', function ($scope, ItemService, ItemtypeService,
                     toastr.error(res.message);
                 }
                 else {
-                    getitemes();
+                    getitems();
                     dataitem();
                     toastr.success(res.message);
                 }
@@ -71,7 +57,7 @@ app.controller('ItemController', function ($scope, ItemService, ItemtypeService,
                     toastr.error(res.message);
                 }
                 else {
-                    getitemes();
+                    getitems();
                     dataitem();
                     toastr.success(res.message);
                 }
@@ -86,15 +72,15 @@ app.controller('ItemController', function ($scope, ItemService, ItemtypeService,
             else {
                 $("#modaldeleteitem").modal("hide");
                 dataitem();
-                getitemes();
+                getitems();
                 toastr.success(res.message);
             }
         })
     };
 
     $scope.selecteditem = function (item, option) {
-        $scope.itemeselected = item;
-        $scope.edititem = angular.copy($scope.itemeselected);
+        $scope.itemselected = item;
+        $scope.edititem = angular.copy($scope.itemselected);
         $scope.edititem.state = 2;
         $("#make").val($scope.edititem.make);
 
@@ -108,12 +94,11 @@ app.controller('ItemController', function ($scope, ItemService, ItemtypeService,
     };
 
     $scope.validatecontrols = function () {
-        return $scope.edititem == null || $scope.edititem.numberid == null
-            || ($scope.edititem.numberid != null && $scope.edititem.numberid.length < 4)
-            || $scope.edititem.numberseats == null || $scope.edititem.numberrows == null
-            || $scope.edititem.numberfloors == null || $scope.edititem.numberfloors == null
-            || $scope.edititem.model == null || $scope.selecteditemtype == null
-            || $scope.edititem.make == null || $scope.edititem.color == null;
+        return $scope.edititem == null || $scope.edititem.name == null
+            || $scope.edititem.make == null || $scope.edititem.model == null
+            || $scope.edititem.unitprice == null || $scope.edititem.wholesaleprice == null
+            || $scope.edititem.cost == null || $scope.edititem.serialnumber == null
+            || $scope.edititem.barcode == null || $scope.edititem.type == null;
     };
 
     $scope.newitem = function () {
