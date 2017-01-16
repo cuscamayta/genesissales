@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Almacenes registrados</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead class="headings">
+                            <tr>
+                                <th>#</th>
+                                <th>Descripción</th>
+                                <th>Direccion</th>
+                                <th>Ciudad</th>
+                                <th>Detalle</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="even pointer" ng-repeat="warehouse in warehouses | paginate" ng-class="{selectelement:warehouseselected.id==warehouse.id}">
+                                <td>{{$index + 1}}</td>
+                                <td>{{warehouse.title}}</td>
+                                <td>{{warehouse.address}}</td>
+                                <td>{{warehouse.city}}</td>
+                                <td>{{warehouse.detail}}</td>
+                                <td ng-click="selectedwarehouse(warehouse,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+                                <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedwarehouse(warehouse,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <paginator></paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Registrar almacen</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <form class="form-horizontal form-label-left">
+                    <p></p>
+                    <label for="title">Descripción <span class="required">*</span></label>
+                    <input type="text" id="title" class="form-control" ngfocus order="1" ng-model="editwarehouse.title" validate="text-number"
+                        required>
+
+                    <label for="address">Direccion <span class="required">*</span></label>
+                    <input type="text" id="address" class="form-control" ngfocus ng-model="editwarehouse.address" required>
+
+                    <label for="city">Ciudad <span class="required">*</span></label>
+                    <input type="text" id="city" class="form-control" ngfocus ng-model="editwarehouse.city" required ng-enter="savewarehouse()">
+
+                    <label for="detail">Detalle </label>
+                    <input type="text" id="detail" class="form-control" ngfocus ng-model="editwarehouse.detail" required>
+
+                    <div class="ln_solid"></div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <button type="button" class="btn btn-default" ng-click="newwarehouse()" title="Limpiar controles">Cancelar</button>
+                        <button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="savewarehouse()" title="Guardar">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modaldeletewarehouse" class="modal fade bs-example-modal-sm" tabindex="-1" warehouse="dialog" aria-hidden="true"
+    style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar almacen</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deletewarehouse()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

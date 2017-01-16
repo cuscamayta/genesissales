@@ -1,0 +1,113 @@
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Items registrados</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead class="headings">
+                            <tr>
+                                <th>#</th>
+                                <th>Descripción</th>
+                                <th>Modelo</th>
+                                <th>Marca</th>
+                                <th>Nro Serie</th>
+                                <th>Code</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="even pointer" ng-repeat="item in items | paginate" ng-class="{selectelement:itemselected.id==item.id}">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.model}}</td>
+                                <td>{{item.make}}</td>
+                                <td>{{item.serialnumber}}</td>
+                                <td>{{item.barcode}}</td>
+                                <td ng-click="selecteditem(item,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+                                <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selecteditem(item,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <paginator></paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Registrar almacen</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <form class="form-horizontal form-label-left">
+                    <p></p>
+                    <label for="name">Descripción <span class="required">*</span></label>
+                    <input type="text" id="name" class="form-control" ngfocus order="1" ng-model="edititem.name" validate="text-number" required>
+
+                    <label for="make">Marca <span class="required">*</span></label>
+                    <input type="text" id="make" class="form-control" ngfocus ng-model="edititem.make" validate="text-number" required>
+
+                    <label for="model">Modelo <span class="required">*</span></label>
+                    <input type="text" id="model" class="form-control" ngfocus ng-model="edititem.model" validate="text-number" required>
+
+                    <label for="unitprice">Precio Unitario <span class="required">*</span></label>
+                    <input type="text" id="unitprice" class="form-control" ngfocus ng-model="edititem.unitprice" validate="number" required>
+
+                    <label for="wholesaleprice">Precio Mayorista <span class="required">*</span></label>
+                    <input type="text" id="wholesaleprice" class="form-control" ngfocus ng-model="edititem.wholesaleprice" validate="number"
+                        required>
+
+                    <label for="cost">Costo <span class="required">*</span></label>
+                    <input type="text" id="cost" class="form-control" ngfocus ng-model="edititem.cost" validate="number" required>
+
+                    <label for="serialnumber">Nro serie <span class="required">*</span></label>
+                    <input type="text" id="serialnumber" class="form-control" ngfocus order="1" ng-model="edititem.serialnumber" validate="text-number" required>
+
+                    <label for="barcode">Codigo de barra <span class="required">*</span></label>
+                    <input type="text" id="barcode" class="form-control" ngfocus order="1" ng-model="edititem.barcode" validate="text-number" required>
+
+                    <label for="detail">Detalle </label>
+                    <input type="text" id="detail" class="form-control" ngfocus ng-model="edititem.detail" required>
+
+                    <p>
+                        <label for="iditemtype">Tipo de item <span class="required">*</span></label>
+                        <select id="iditemtype" class="form-control" ng-options="itemtype.title for itemtype in listitemtype" ng-model="selecteditemtype"
+                            required ng-enter="savebus()">                            
+                        </select>
+                    </p>
+
+                    <div class="ln_solid"></div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <button type="button" class="btn btn-default" ng-click="newitem()" title="Limpiar controles">Cancelar</button>
+                        <button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="saveitem()" title="Guardar">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modaldeleteitem" class="modal fade bs-example-modal-sm" tabindex="-1" item="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar almacen</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteitem()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
