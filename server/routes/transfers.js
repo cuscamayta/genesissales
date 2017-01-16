@@ -69,10 +69,12 @@ router.post('/create', common.isAuthenticate, function (request, response) {
                 return models.Transfer.create(createTransfer(request, input.id, output.id), { transaction: t }).then(function (tranfer) {
                     var promises = []
                     for (var index = 0; index < request.body.details.length; index++) {
-                        var newPromise = models.Inventorydetail.create(createInventoryDetail(request, index, input), { transaction: t });
-                        promises.push(newPromise);
-                        var newPromise2 = models.Inventorydetail.create(createInventoryDetail(request, index, output), { transaction: t });
-                        promises.push(newPromise2);
+                        if (request.body.details[index].state == 1) {
+                            var newPromise = models.Inventorydetail.create(createInventoryDetail(request, index, input), { transaction: t });
+                            promises.push(newPromise);
+                            var newPromise2 = models.Inventorydetail.create(createInventoryDetail(request, index, output), { transaction: t });
+                            promises.push(newPromise2);
+                        }
                     }
                     return Promise.all(promises);
 
@@ -92,9 +94,13 @@ router.post('/invalidate', common.isAuthenticate, function (request, response) {
     return models.sequelize.transaction(function (t) {
 
         return models.Transfer.update({ status: 0 }, { where: { id: request.body.id } }, { transaction: t }).then(function (transfer) {
-            return models.Inventorytransaction.update({ status: 0 }, { where: { id: models.sequelize.in[request.body.idinventoryinput, request.body.idinventoryoutput], readonly: 1 } }, { transaction: t }).then(function () {
-                return models.Inventorydetail.update({ status: 0 }, { where: { idinventory: models.sequelize.in[request.body.idinventoryinput, request.body.idinventoryoutput], readonly: 1 } }, { transaction: t }).then(function () {
+            return models.Inventorytransaction.update({ status: 0 }, { where: { id: request.body.idinventoryinput, readonly: 1 } }, { transaction: t }).then(function () {
+                return models.Inventorytransaction.update({ status: 0 }, { where: { id: request.body.idinventoryoutput, readonly: 1 } }, { transaction: t }).then(function () {
+                    return models.Inventorydetail.destroy({ where: { idinventory: request.body.idinventoryinput } }, { transaction: t }).then(function () {
+                        return models.Inventorydetail.destroy({ where: { idinventory: request.body.idinventoryoutput } }, { transaction: t }).then(function () {
 
+                        });
+                    });
                 });
             });
         });
@@ -107,7 +113,7 @@ router.post('/invalidate', common.isAuthenticate, function (request, response) {
 });
 
 router.get('/', common.isAuthenticate, function (request, response) {
-    models.Transfer.findAll().then(function (res) {
+    models.Transfer.findAll({ where: { status: 1 } }).then(function (res) {
         response.send(common.response(res));
     }).catch(function (err) {
         response.send(common.response(err.code, err.message, false));

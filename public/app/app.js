@@ -56,6 +56,14 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'ItemController',
             templateUrl: 'app/partials/inventory/item.html'
         })
+        .when('/inventory', {
+            controller: 'InventoryController',
+            templateUrl: 'app/partials/inventory/inventory.html'
+        })
+        .when('/transfer', {
+            controller: 'TransferController',
+            templateUrl: 'app/partials/inventory/transfer.html'
+        })
         .when('/office', {
             controller: 'OfficeController',
             templateUrl: 'app/partials/course/office.html'

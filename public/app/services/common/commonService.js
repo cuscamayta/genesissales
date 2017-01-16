@@ -52,7 +52,8 @@ app.service('CommonService', function ($http, $q) {
 
     function typeitem() {
         var color = {
-            Celular: "Celular", Electrodomestico: "Electrodomestico", Repuesto: "Repuesto"
+            Celular: "Celular", Electrodomestico: "Electrodomestico", Repuesto: "Repuesto",
+            Portatil: "Portatil", Computadora: "Computadora"
         };
         return color;
     }

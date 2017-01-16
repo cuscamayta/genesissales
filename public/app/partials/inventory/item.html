@@ -12,8 +12,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Descripción</th>
-                                <th>Modelo</th>
                                 <th>Marca</th>
+                                <th>Modelo</th>
                                 <th>Nro Serie</th>
                                 <th>Code</th>
                                 <th></th>
@@ -24,8 +24,8 @@
                             <tr class="even pointer" ng-repeat="item in items | paginate" ng-class="{selectelement:itemselected.id==item.id}">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.name}}</td>
-                                <td>{{item.model}}</td>
                                 <td>{{item.make}}</td>
+                                <td>{{item.model}}</td>
                                 <td>{{item.serialnumber}}</td>
                                 <td>{{item.barcode}}</td>
                                 <td ng-click="selecteditem(item,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>

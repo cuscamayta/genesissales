@@ -1,0 +1,198 @@
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Traspaso de inventario registrados</h2>
+                <button type="button" class="btn btn-default pull-right btnborderless" data-toggle="modal" data-target=".bs-example-modal-lg"
+                    ng-click="newtransfer()" title="Nuevo registro"><i class="fa fa-plus-square"></i> Nuevo</button>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead class="headings">
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha</th>
+                                <th>Almacen</th>
+                                <th>Code</th>
+                                <th>Tipo</th>
+                                <th>Total</th>
+                                <th>Usuario</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="even pointer" ng-repeat="transfer in transfers | paginate" ng-class="{selectelement:transferselected.id==transfer.id}">
+                                <td>{{$index + 1}}</td>
+                                <td>{{transfer.dateregister}}</td>
+                                <td>{{transfer.Warehouse.title}}</td>
+                                <td>{{transfer.code}}</td>
+                                <td ng-show="transfer.type == '0'">Egreso</td>
+                                <td ng-hide="transfer.type == '0'">Ingreso</td>
+                                <td>{{transfer.total}}</td>
+                                <td>{{transfer.User.username}}</td>
+                                <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedtransfer(transfer,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <paginator></paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modaledittransfer" class="modal fade bs-example-modal-lg" tabindex="-1" warehouse="dialog" aria-hidden="true" style="display: none;">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Registrar traspaso de inventario</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal form-label-left">
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="idwarehouseinput">Almacen origen <span class="required">*</span></label>
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                    <select id="idwarehouseinput" class="form-control" ng-options="warehouse.title for warehouse in listwarehouse" ng-model="selectedwarehouseinput"
+                        required>                            
+                    </select>
+                </div>
+
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="idwarehouseoutput">Almacen destino <span class="required">*</span></label>
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                    <select id="idwarehouseoutput" class="form-control" ng-options="warehouse.title for warehouse in listwarehouse | filterSelected :selectedwarehouseinput"
+                        ng-model="selectedwarehouseoutput" required>                            
+                    </select>
+                </div>
+
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="dateregister">Fecha <span class="required">*</span></label>
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                    <input type="text" id="dateregister" class="form-control has-feedback-left active" ngfocus order="1" ng-model="edittransfer.dateregister"
+                        validate="date" required data-inputmask="'mask': '99/99/9999'" aria-describedby="inputSuccess2Status">
+                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                    <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                </div>
+
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="typeprice">Tipo precio <span class="required">*</span></label>
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                    <select id="typeprice" class="form-control" required ng-model="selectedtypeprice" ng-change="selecteditemchange()">
+                            <option value="" disabled selected>Elija un tipo</option>
+                            <option value="0">Unitario</option>
+                            <option value="1">Mayorista</option>
+                        </select>
+                </div>
+
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="code">CODE <span class="required">*</span></label>
+                <div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback">
+                    <input type="text" id="code" class="form-control" ngfocus ng-model="edittransfer.code" validate="text-number-hour" required>
+                </div>
+
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="detail">Detalles</label>
+                <div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback">
+                    <textarea id="detail" class="form-control" ngfocus ng-model="edittransfer.detail" rows="2"></textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Agregar item</h2>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="iditem">Item <span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <select id="iditem" class="form-control" ng-options="item.name for item in listitem" ng-model="selecteditem" required ng-change="selecteditemchange()">
+                                    </select>
+                            </div>
+
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="quantity">Cantidad <span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                                <input type="text" id="quantity" class="form-control" ngfocus ng-model="quantity" validate="number" required>
+                            </div>
+
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="price">Precio <span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                                <input type="text" id="price" class="form-control" ngfocus ng-model="price" validate="number" required readonly>
+                            </div>
+
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="cost">Costo <span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                                <input type="text" id="cost" class="form-control" ngfocus ng-model="cost" validate="number" required readonly>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <button type="button" class="btn btn-default pull-right btnborderless" ng-click="newtransferdetail()" title="Nuevo conductor"
+                                    ng-disabled="validatecontrolsdetail()">
+                                            <i class="fa fa-plus-square"></i> Agregar</button>
+                            </div>
+
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead class="headings">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Item</th>
+                                        <th style="text-align: right;">Precio</th>
+                                        <th style="text-align: right;">Costo</th>
+                                        <th style="text-align: right;">Cantidad</th>
+                                        <th style="text-align: right;">Sub-Total</th>
+                                        <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="transferdetail in transferdetails | filterDeleteGrid" ng-class="{selectelement:transferdetailselected.id==transferdetail.id}">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{transferdetail.name}}</td>
+                                                <td style="text-align: right;">{{transferdetail.cost}}</td>
+                                        <td style="text-align: right;">{{transferdetail.price}}</td>
+                                        <td style="text-align: right;">{{transferdetail.quantity}}</td>
+                                        <td style="text-align: right;">{{transferdetail.quantity * transferdetail.price}}</td>
+                                        <td style="text-align: center;" ng-click="deletetransferdetail(transferdetail)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td style="text-align: right; font-weight: bold;">Total</td>
+                                        <td style="text-align: right; font-weight: bold;">{{ sumTotal }}</td>
+                                        <td></td>
+                                        </tr>
+                                        </tfoot>
+                                        </table>
+                                        </div>
+</div>
+</div>
+</form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" title="Limpiar controles y cerrar">Cancelar</button>
+    <button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="savetransfer()" title="Guardar">Guardar</button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="modaldeletetransfer" class="modal fade bs-example-modal-sm" tabindex="-1" warehouse="dialog" aria-hidden="true"
+    style="display: none;">
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Transaccion de inventario</h4>
+        </div>
+        <div class="modal-body">
+            <p>¿Esta seguro de eliminar el registro?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+            <button type="button" class="btn btn-danger" ng-click="deletetransfer()" title="Eliminar">Eliminar</button>
+        </div>
+    </div>
+</div>
+</div>
