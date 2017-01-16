@@ -113,7 +113,10 @@ router.post('/invalidate', common.isAuthenticate, function (request, response) {
 });
 
 router.get('/', common.isAuthenticate, function (request, response) {
-    models.Transfer.findAll({ where: { status: 1 } }).then(function (res) {
+    models.Transfer.findAll({
+        include: [{ model: models.Warehouse }, { model: models.User }],
+        where: { status: 1 }
+    }).then(function (res) {
         response.send(common.response(res));
     }).catch(function (err) {
         response.send(common.response(err.code, err.message, false));

@@ -74,7 +74,8 @@ router.post('/update', common.isAuthenticate, function (request, response) {
 
 router.get('/', common.isAuthenticate, function (request, response) {
     models.Inventorytransaction.findAll({
-        include: [{ model: models.Inventorydetail, include: [models.Item] }, { model: models.Warehouse }, { model: models.User }]
+        include: [{ model: models.Inventorydetail, include: [models.Item] }, { model: models.Warehouse }, { model: models.User }],
+        where: { status: 1 }
     }).then(function (res) {
         response.send(common.response(res));
     }).catch(function (err) {
@@ -85,7 +86,7 @@ router.get('/', common.isAuthenticate, function (request, response) {
 router.post('/forid', common.isAuthenticate, function (request, response) {
     models.Inventorytransaction.findOne({
         include: [{ model: models.Inventorydetail, include: [models.Item] }],
-        where: { id: request.body.id }
+        where: { id: request.body.id, status: 1 }
     }).then(function (res) {
         response.send(common.response(res));
     }).catch(function (err) {
@@ -96,6 +97,7 @@ router.post('/forid', common.isAuthenticate, function (request, response) {
 router.post('/forselect', common.isAuthenticate, function (request, response) {
     models.Inventorytransaction.findAll({
         include: [{ model: models.Bus, include: [models.Bustype] }, { model: models.Ticket, where: { status: 1 }, required: false }], where: { idtravel: request.body.id },
+        where: { status: 1 },
         order: 'dateregister DESC'
     }).then(function (res) {
         response.send(common.response(res));

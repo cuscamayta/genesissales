@@ -16,7 +16,7 @@
                                 <th>Fecha</th>
                                 <th>Almacen</th>
                                 <th>Code</th>
-                                <th>Tipo</th>
+                                <th>Tipo precio</th>
                                 <th>Total</th>
                                 <th>Usuario</th>
                                 <th></th>
@@ -28,8 +28,8 @@
                                 <td>{{transfer.dateregister}}</td>
                                 <td>{{transfer.Warehouse.title}}</td>
                                 <td>{{transfer.code}}</td>
-                                <td ng-show="transfer.type == '0'">Egreso</td>
-                                <td ng-hide="transfer.type == '0'">Ingreso</td>
+                                <td ng-show="transfer.typeprice == '0'">Unitario</td>
+                                <td ng-hide="transfer.typeprice == '0'">Mayorista</td>
                                 <td>{{transfer.total}}</td>
                                 <td>{{transfer.User.username}}</td>
                                 <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedtransfer(transfer,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
