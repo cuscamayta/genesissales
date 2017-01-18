@@ -53,15 +53,23 @@ app.service('SaleService', function ($http, $q) {
         return defer.promise;
     };
 
-    this.deletesalesbook = function (salesbook) {
+    this.savesale = function (orderbook) {
         var defer = $q.defer();
-        $http.post('/sales/destroy', salesbook).success(function (response) {
+        $http.post('/sales/create', orderbook).success(function (response) {
             defer.resolve(response);
         });
         return defer.promise;
     };
 
-     this.getinvoice = function (filters) {
+    this.invalidatesale = function (sale) {
+        var defer = $q.defer();
+        $http.post('/sales/invalidate', sale).success(function (response) {
+            defer.resolve(response);
+        });
+        return defer.promise;
+    };
+
+    this.getinvoice = function (filters) {
         var defer = $q.defer();
         $http.post('/sales/invoice', filters).success(function (response) {
             defer.resolve(response);

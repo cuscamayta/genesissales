@@ -72,6 +72,10 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'OrderbookController',
             templateUrl: 'app/partials/sales/orderbook.html'
         })
+        .when('/sale', {
+            controller: 'SaleController',
+            templateUrl: 'app/partials/sales/sale.html'
+        })
         .when('/invoice', {
             controller: 'InvoiceController',
             templateUrl: 'app/partials/sales/invoice.html'

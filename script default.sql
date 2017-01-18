@@ -33,7 +33,7 @@ insert into database_productionsale.pages (title, path, createdat, updatedat, id
 
 insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Dosificación', 'orderbook', now(), now(),3);
 
-insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Ticket', 'ticket', now(), now(),4);
+insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Venta', 'sale', now(), now(),4);
 insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Anular factura', 'invalidate', now(), now(),4);
 
 insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Item', 'item', now(), now(),5);
