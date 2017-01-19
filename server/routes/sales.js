@@ -2,6 +2,9 @@ var models = require('./../models');
 var express = require('express');
 var router = express.Router();
 var common = require('./common');
+var invoice = require('./codecontrol');
+var moment = require("moment");
+
 
 router.get('/', common.isAuthenticate, function (request, response) {
     models.Sale.findAll({
@@ -49,11 +52,12 @@ function createsalesbook(request, codecontrol, numberinvoice, numberorder, typeo
 function createsale(request, salebook, inventory) {
     return {
         dateregister: request.body.dateregister,
-        arrival: request.body.arrival,
-        departure: request.body.departure,
+        numberid: request.body.numbernitinvoice,
+        fullname: request.body.nameinvoice,
         total: request.body.amountinvoice,
         detail: request.body.detail,
         status: 1,
+        typeprice: 0,
         idinventory: inventory.id,
         idoffice: request.body.idoffice,
         idsalesbook: salebook.id,
@@ -73,12 +77,12 @@ function createdetailsales(request, index, inventorydetail, sale) {
     };
 }
 
-function createinventory(request) {
+function createinventory(request, numberinvoice) {
     return {
         dateregister: request.body.dateregister,
-        total: request.body.total,
-        code: request.body.dateregister,
-        typeprice: request.body.typeprice,
+        total: request.body.amountinvoice,
+        code: request.body.dateregister + " - " + numberinvoice,
+        typeprice: 0,
         type: 0,
         status: 1,
         idwarehouse: request.body.idwarehouse,
@@ -133,7 +137,7 @@ router.post('/create', common.isAuthenticate, function (request, response) {
 
                                     return models.Salesbook.max('numberinvoice', { where: { numberorder: orderbook.numberorder } }, { transaction: t }).then(function (nroinvoice) {
 
-                                        return models.Inventorytransaction.create(createinventory(request), { transaction: t }).then(function (inventory) {
+                                        return models.Inventorytransaction.create(createinventory(request, numberinvoice), { transaction: t }).then(function (inventory) {
 
                                             return models.Sale.create(createsale(request, salebook, inventory), { transaction: t }).then(function (sale) {
 
@@ -180,10 +184,17 @@ router.post('/invalidate', common.isAuthenticate, function (request, response) {
     return models.sequelize.transaction(function (t) {
         var nro = request.body.id;
         return models.Salesbook.update({ status: 0 }, { where: { id: request.body.id } }, { transaction: t }).then(function (salebook) {
+
             return models.Sale.findOne({ where: { idsalesbook: request.body.id } }, { transaction: t }).then(function (sale) {
-                return models.Sale.update({ status: 0 }, { where: { idsalesbook: request.body.id } }, { transaction: t }).then(function () {
-                    return models.Salesdetail.update({ status: 0 }, { where: { idsale: sale.id } }, { transaction: t }).then(function () {
-                        return models.Ticket.update({ status: 0 }, { where: { idsale: sale.id } }, { transaction: t }).then(function () {
+
+                return models.Inventorytransaction.update({ status: 0 }, { where: { id: sale.dataValues.idinventory, readonly: 0 } }, { transaction: t }).then(function () {
+
+                    return models.Sale.update({ status: 0 }, { where: { idsalesbook: request.body.id } }, { transaction: t }).then(function () {
+
+                        return models.Salesdetail.update({ status: 0 }, { where: { idsale: sale.id } }, { transaction: t }).then(function () {
+
+                            return models.Inventorydetail.destroy({ where: { idinventory: sale.dataValues.idinventory } }, { transaction: t }).then(function () {
+                            });
                         });
                     });
                 });
@@ -192,6 +203,51 @@ router.post('/invalidate', common.isAuthenticate, function (request, response) {
 
     }).then(function (result) {
         response.send(common.response(null, "Se anulo correctamente"));
+    }).catch(function (err) {
+        response.send(common.response(err.name, err.message, false));
+    });
+});
+
+router.post('/invoice', common.isAuthenticate, function (request, response) {
+
+    return models.sequelize.transaction(function (t) {
+        return models.Setting.findOne({ attributes: ["title", "numberid", "note"] }, { transaction: t }).then(function (setting) {
+            if (setting) {
+                return models.Orderbook.findOne({
+                    attributes: ["numberorder", "idoffice", "deadline"],
+                    where: { idoffice: request.body.idoffice, status: 2, type: 1 }
+                }, { transaction: t }).then(function (orderbook) {
+                    if (orderbook) {
+                        return models.Salesbook.findOne({
+                            attributes: ["numberorder", "numbercontrol", "numberid", "fullname", "numberinvoice", "dateregister", "amountinvoice", "idoffice"],
+                            include: [{
+                                model: models.Office,
+                                attributes: ["title", "address", "phone", "detail"]
+                            },
+                            {
+                                model: models.Sale,
+                                attributes: ["total"],
+                                include: [{
+                                    model: models.Salesdetail,
+                                    where: { status: 1 },
+                                    attributes: ["price", "quantity"],
+                                    include: [{ model: models.Item, attributes: ["name"] }]
+                                }]
+                            }],
+                            where: { status: 1, numberinvoice: request.body.numberinvoice, numberorder: orderbook.dataValues.numberorder }
+                        }, { transaction: t }).then(function (invoice) {
+                            var data = { invoice: invoice, setting: setting, orderbook: orderbook };
+                            response.send(common.response(data));
+                        });
+                    } else {
+                        throw new Error("No existe libro de orden");
+                    }
+                });
+            } else {
+                throw new Error("No existe configuración de la empresa");
+            }
+        });
+
     }).catch(function (err) {
         response.send(common.response(err.name, err.message, false));
     });

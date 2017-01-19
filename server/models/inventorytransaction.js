@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         total: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-        code: { type: DataTypes.STRING(8), allowNull: false },
+        code: { type: DataTypes.STRING(20), allowNull: false },
         typeprice: { type: DataTypes.INTEGER(4), allowNull: false },
         type: { type: DataTypes.INTEGER(4), allowNull: false },
         status: { type: DataTypes.INTEGER(4), allowNull: false },

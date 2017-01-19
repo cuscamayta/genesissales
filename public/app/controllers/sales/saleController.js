@@ -1,4 +1,4 @@
-app.controller('SaleController', function ($scope, SaleService, OfficeService, ItemService) {
+app.controller('SaleController', function ($scope, SaleService, OfficeService, ItemService, $rootScope) {
     init();
     function init() {
         getitems();
@@ -14,6 +14,8 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
         }).on('apply.daterangepicker', function (ev, picker) {
             $scope.headersale.dateregister = picker.startDate.format('DD/MM/YYYY');
         });
+
+        $("#invoice-file").hide();
     }
 
     function datasale() {
@@ -31,6 +33,7 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
         $scope.quantityadd = 1;
         $scope.headersale.numbernitinvoice = 0;
         $scope.headersale.nameinvoice = "SIN NOMBRE";
+        $scope.sumTotal = 0;
     };
 
     function getitems() {
@@ -45,6 +48,30 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
         });
     }
 
+    $scope.savesale = function () {
+        $scope.headersale.details = $scope.listsale;
+        $scope.headersale.iduser = $rootScope.currentUser.user.id;
+
+        $scope.headersale.idwarehouse = $rootScope.idwarehouse
+        $scope.headersale.idoffice = $rootScope.idoffice;
+        $scope.headersale.amountinvoice = $scope.sumTotal;
+
+        if ($scope.headersale.id == 0) {
+            var response = SaleService.savesale($scope.headersale);
+            response.then(function (res) {
+                debugger;
+                if (!res.isSuccess) { toastr.error(res.message); }
+                else {
+                    toastr.success(res.message);
+                    defaultvalue();
+                    generateprintinvoice(res.data);
+                    $scope.listsale = [];
+                }
+            });
+        }
+        $("#modaleditticket").modal("hide");
+    };
+
     $scope.selecteditem = function (item) {
         $scope.detailsale = {};
 
@@ -57,6 +84,7 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
             $scope.detailsale.quantity = $scope.quantityadd;
             $scope.detailsale.name = item.name;
             $scope.detailsale.iditem = item.id;
+            $scope.detailsale.cost = item.cost;
             $scope.detailsale.state = 1;
             $scope.listsale.push($scope.detailsale);
         }
@@ -70,9 +98,14 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
     }
 
     $scope.validatecontrols = function () {
-        return $scope.saledetails == null || $scope.headersale == null
-            || $scope.headersale.dateregister || $scope.headersale.numbernitinvoice || $scope.headersale.nameinvoice
-            || ($scope.saledetails != null && $scope.saledetails.length < 1);
+        return $scope.headersale == null || $scope.headersale.dateregister == null
+            || $scope.headersale.numbernitinvoice == null || $scope.headersale.nameinvoice == null
+            || ($scope.listsale != null && $scope.listsale.length < 1);
+    };
+
+    $scope.deletesaledetail = function (item) {
+        $scope.listsale.remove(item);
+        getTotal();
     };
 
     function generateprintinvoice(nroinvoiceprint) {
@@ -106,10 +139,7 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
                     $scope.datainvoice.deadlineOrder = res.data.orderbook.deadline;
                     $scope.datainvoice.total = res.data.invoice.Sales.first().total;
                     $scope.datainvoice.deadline = res.data.orderbook.deadline;
-                    $scope.datainvoice.date = res.data.invoice.Sales.first().Schedule.dateregister;
-                    $scope.datainvoice.arrival = res.data.invoice.Sales.first().Schedule.arrival;
-                    $scope.datainvoice.departure = res.data.invoice.Sales.first().Schedule.departure;
-                    $scope.detailinvoice = res.data.invoice.Sales.first().Tickets;
+                    $scope.detailinvoice = res.data.invoice.Sales.first().Salesdetails;
                     var totalformat = parseFloat(Math.round(res.data.invoice.Sales.first().total * 100) / 100).toFixed(2);
                     $scope.datainvoice.totalliteral = Convertir(totalformat);
 

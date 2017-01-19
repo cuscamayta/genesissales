@@ -11,6 +11,7 @@ module.exports = function (sequelize, DataTypes) {
                 associate: function (models) {
                     Salesdetail.belongsTo(models.Inventorydetail, { foreignKey: "idinventorydetail", allowNull: false });
                     Salesdetail.belongsTo(models.Sale, { foreignKey: "idsale", allowNull: false });
+                    Salesdetail.belongsTo(models.Item, { foreignKey: "iditem", allowNull: false });
                 }
             }
         }

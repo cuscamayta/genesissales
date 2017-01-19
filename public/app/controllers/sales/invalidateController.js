@@ -1,4 +1,4 @@
-app.controller('InvalidateController', function ($scope, SalesbookService, OfficeService, TicketService, $rootScope) {
+app.controller('InvalidateController', function ($scope, SalesbookService, OfficeService, SaleService, $rootScope) {
     init();
 
     function init() {
@@ -65,7 +65,7 @@ app.controller('InvalidateController', function ($scope, SalesbookService, Offic
     };
 
     $scope.deletesalebook = function () {
-        var response = TicketService.invalidateinvoice($scope.selectedsalebook);
+        var response = SaleService.invalidatesale($scope.selectedsalebook);
         response.then(function (res) {
             if (!res.isSuccess) { toastr.error(res.message); }
             else {

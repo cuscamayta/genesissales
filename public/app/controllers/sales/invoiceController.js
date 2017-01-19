@@ -35,10 +35,7 @@ app.controller('InvoiceController', function ($scope, SaleService, $rootScope) {
                     $scope.datainvoice.deadlineOrder = res.data.orderbook.deadline;
                     $scope.datainvoice.total = res.data.invoice.Sales.first().total;
                     $scope.datainvoice.deadline = res.data.orderbook.deadline;
-                    $scope.datainvoice.date = res.data.invoice.Sales.first().Schedule.dateregister;
-                    $scope.datainvoice.arrival = res.data.invoice.Sales.first().Schedule.arrival;
-                    $scope.datainvoice.departure = res.data.invoice.Sales.first().Schedule.departure;
-                    $scope.detailinvoice = res.data.invoice.Sales.first().Tickets;
+                    $scope.detailinvoice = res.data.invoice.Sales.first().Salesdetails;
                     var totalformat = parseFloat(Math.round(res.data.invoice.Sales.first().total * 100) / 100).toFixed(2);
                     $scope.datainvoice.totalliteral = Convertir(totalformat);
 

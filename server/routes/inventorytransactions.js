@@ -108,13 +108,14 @@ router.post('/forselect', common.isAuthenticate, function (request, response) {
 
 router.post('/destroy', common.isAuthenticate, function (request, response) {
     return models.sequelize.transaction(function (t) {
-        return models.Inventorydetail.destroy({
-            where: { idinventory: request.body.id, readonly: 0 }
-        }, { transaction: t }).then(function (res) {
-            return models.Inventorytransaction.destroy({
-                where: { id: request.body.id }
-            }), { transaction: t };
-        });
+        return models.Inventorydetail.update({ status: 0 },
+            {
+                where: { idinventory: request.body.id }
+            }, { transaction: t }).then(function (res) {
+                return models.Inventorytransaction.destroy({
+                    where: { id: request.body.id }
+                }), { transaction: t };
+            });
     }).then(function (res) {
         response.send(common.response(null, "Se elimino correctamente"));
     }).catch(function (err) {

@@ -15,10 +15,7 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         numberid: {
-            type: DataTypes.STRING, allowNull: false,
-            set: function (val) {
-                this.setDataValue('numberid', val.toUpperCase());
-            }
+            type: DataTypes.STRING, allowNull: false
         },
         fullname: {
             type: DataTypes.STRING, allowNull: false,

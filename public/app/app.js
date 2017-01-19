@@ -6,6 +6,7 @@ app.run(function ($localStorage, $rootScope, $location, $timeout) {
         $rootScope.listMenuPermit = getModulesAndPages($rootScope.currentUser.permits);
         $rootScope.nameoffice = $localStorage.currentUser.nameOffice;
         $rootScope.idoffice = $localStorage.currentUser.idOffice;
+        $rootScope.idwarehouse = 1;
         $rootScope.fullnameuser = $localStorage.currentUser.user.firstname + " " + $localStorage.currentUser.user.lastname;
         $rootScope.roleuser = $localStorage.currentUser.user.Role.title;
         $timeout($enableSideBar, 500);
