@@ -1,11 +1,11 @@
-app.controller('LoginController', function($scope, LoginService, $localStorage, $location, $rootScope, $timeout) {
+app.controller('LoginController', function ($scope, LoginService, $localStorage, $location, $rootScope, $timeout) {
     init();
     function init() {
         $scope.user = {};
     }
 
-    $scope.login = function() {
-        LoginService.loginUser($scope.user).then(function(responseData) {
+    $scope.login = function () {
+        LoginService.loginUser($scope.user).then(function (responseData) {
             if (responseData.type) {
 
                 $localStorage.currentUser = responseData;
@@ -35,20 +35,20 @@ app.controller('LoginController', function($scope, LoginService, $localStorage, 
         })
     };
 
-    $scope.validatecontrols = function() {
+    $scope.validatecontrols = function () {
         return $scope.user == null || $scope.user.username == null || $scope.user.password == null;
     };
 
-    $rootScope.isLoginPage = function() {
+    $rootScope.isLoginPage = function () {
         if (!$rootScope.currentUser)
             return { "margin-left": 0 };
     };
 
-    $scope.validateoffice = function() {
+    $scope.validateoffice = function () {
         return $scope.selectedoffice == null;
     };
 
-    $scope.getmenu = function() {
+    $scope.getmenu = function () {
         $rootScope.currentUser = $localStorage.currentUser;
         $rootScope.nameoffice = $scope.selectedoffice.Office.title;
         $rootScope.idoffice = $scope.selectedoffice.idoffice;
@@ -56,11 +56,11 @@ app.controller('LoginController', function($scope, LoginService, $localStorage, 
         $localStorage.currentUser.nameOffice = $rootScope.nameoffice;
         getModulesAndPagesForUser($localStorage.currentUser.permits);
         $location.path('/home');
-    };    
+    };
 
-    $scope.changepass = function() {
+    $scope.changepass = function () {
         $scope.pass.username = $rootScope.currentUser.user.username;
-        LoginService.changepass($scope.pass).then(function(res) {
+        LoginService.changepass($scope.pass).then(function (res) {
             if (!res.type) {
                 toastr.error(res.data);
             } else {
@@ -71,7 +71,7 @@ app.controller('LoginController', function($scope, LoginService, $localStorage, 
         });
     };
 
-    $scope.validatecontrolspass = function() {
+    $scope.validatecontrolspass = function () {
         return $scope.pass == null || $scope.pass.passcurrent == null || $scope.pass.passnew == null;
     };
 

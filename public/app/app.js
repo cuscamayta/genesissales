@@ -49,7 +49,7 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'UserofficeController',
             templateUrl: 'app/partials/security/useroffice.html'
         })
-         .when('/userwarehouse', {
+        .when('/userwarehouse', {
             controller: 'UserwarehouseController',
             templateUrl: 'app/partials/security/userwarehouse.html'
         })
@@ -171,4 +171,4 @@ function getModulesAndPages(permits) {
     } else {
         return listMenuPermit = {};
     }
-}
+}  

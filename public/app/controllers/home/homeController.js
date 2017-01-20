@@ -51,5 +51,5 @@ app.controller('HomeController', function ($scope, ScheduleService, $location, $
         $rootScope.currentUser = null;
         $localStorage.currentUser = null;
         $location.path('/login');
-    };
+    };    
 });
