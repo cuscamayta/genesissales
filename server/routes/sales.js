@@ -17,15 +17,19 @@ router.get('/', common.isAuthenticate, function (request, response) {
 });
 
 router.post('/dailycash', common.isAuthenticate, function (request, response) {
-
     models.Sale.findAll({
         include: [{ model: models.User }],
-        where: { dateregister: common.formatDate(request.body.dateregister), iduser: request.body.iduser, status: 1 },
-        order: 'idschedule ASC'
+        where: {
+            dateregister: {
+                $between: [common.formatDate(request.body.dateinit), common.formatDate(request.body.dateend)]
+            },
+            iduser: request.body.iduser, status: 1
+        },
+        order: 'dateregister ASC'
     }).then(function (res) {
         response.send(common.response(res));
     }).catch(function (err) {
-        response.send(common.response(err.code, err.message, false));
+        response.send(common.response(err.name, err.message, false));
     });
 });
 

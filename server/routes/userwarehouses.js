@@ -16,7 +16,7 @@ router.post('/create', common.isAuthenticate, function (request, response) {
 
 router.get('/', common.isAuthenticate, function (request, response) {
     models.Userwarehouse.findAll({
-        include: [{ model: models.User }, { model: models.Office }]
+        include: [{ model: models.User }, { model: models.Warehouse }]
     }).then(function (res) {
         response.send(common.response(res));
     }).catch(function (err) {

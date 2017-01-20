@@ -3,7 +3,6 @@ app.controller('DailycashController', function ($scope, SaleService, UserService
 
     function init() {
         getusers();
-        $scope.selectedschedule = null;
         $scope.listsales = [];
 
         $scope.filters = {};

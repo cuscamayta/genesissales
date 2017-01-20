@@ -49,6 +49,10 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'UserofficeController',
             templateUrl: 'app/partials/security/useroffice.html'
         })
+         .when('/userwarehouse', {
+            controller: 'UserwarehouseController',
+            templateUrl: 'app/partials/security/userwarehouse.html'
+        })
         .when('/warehouse', {
             controller: 'WarehouseController',
             templateUrl: 'app/partials/inventory/warehouse.html'

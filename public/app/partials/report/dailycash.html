@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-1 col-sm-1 col-xs-12" for="dateinit">Desde <span class="required">*</span></label>
                         <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                            <input type="text" id="dateinit" class="form-control has-feedback-left active" ngfocus order="1" ng-model="editschedule.dateinit"
+                            <input type="text" id="dateinit" class="form-control has-feedback-left active" ngfocus order="1" ng-model="filters.dateinit"
                                 validate="date" required data-inputmask="'mask': '99/99/9999'" aria-describedby="inputSuccess2Status">
                             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
@@ -20,7 +20,7 @@
 
                         <label class="control-label col-md-1 col-sm-1 col-xs-12" for="dateend">Hasta <span class="required">*</span></label>
                         <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                            <input type="text" id="dateend" class="form-control has-feedback-left active" ngfocus order="1" ng-model="editschedule.dateend"
+                            <input type="text" id="dateend" class="form-control has-feedback-left active" ngfocus order="1" ng-model="filters.dateend"
                                 validate="date" required data-inputmask="'mask': '99/99/9999'" aria-describedby="inputSuccess2Status">
                             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
@@ -46,8 +46,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Fecha</th>
-                                                <th>Hora salida</th>
-                                                <th>Hora llegada</th>
+                                                <th>NIT/CI</th>
+                                                <th>Nombre cliente</th>
                                                 <th>Total</th>
                                                 <th>Usuario</th>
                                             </tr>
@@ -56,9 +56,9 @@
                                             <tr class="even pointer" ng-repeat="sale in listsales" ng-class="{selectelement:saleselected.id==sale.id}">
                                                 <td>{{$index + 1}}</td>
                                                 <td>{{sale.dateregister}}</td>
-                                                <td>{{sale.arrival}}</td>
-                                                <td>{{sale.departure}}</td>
-                                                <td style="text-align: right;">{{sale.total}}</td>
+                                                <td>{{sale.numberid}}</td>
+                                                <td>{{sale.fullname}}</td>
+                                                <td>{{sale.total}}</td>
                                                 <td>{{sale.User.fullName}}</td>
                                             </tr>
                                         </tbody>
@@ -67,8 +67,8 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td style="font-weight: bold;">Total</td>
-                                                <td style="text-align: right; font-weight: bold;">{{ sumTotal }}</td>
+                                                <td>Total</td>
+                                                <td>{{ sumTotal }}</td>
                                                 <td></td>
                                             </tr>
                                         </tfoot>

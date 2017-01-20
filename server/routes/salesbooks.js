@@ -21,4 +21,20 @@ router.post('/forselect', common.isAuthenticate, function (request, response) {
     });
 });
 
+router.post('/voidedinvoice', common.isAuthenticate, function (request, response) {
+
+    models.Salesbook.findAll({
+        include: [{ model: models.Office }],
+        where: {
+            dateregister: common.formatDate(request.body.dateregister),
+            idoffice: request.body.idoffice, status: 0
+        },
+        order: 'numberinvoice ASC'
+    }).then(function (res) {
+        response.send(common.response(res));
+    }).catch(function (err) {
+        response.send(common.response(err.name, err.message, false));
+    });
+});
+
 module.exports = router;
