@@ -15,10 +15,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "P@ssw0rd",
+    "username": "dbo666762867",
+    "password": "P@ssw0rd2017",
     "database": "database_productionsale",
-    "host": "127.0.0.1",
+    "host": "db666762867.db.1and1.com",
     "dialect": "mysql",
     "timezone" : "-04:00"
   }
