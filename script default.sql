@@ -65,7 +65,3 @@ insert into database_productionsale.permits (createdat, updatedat, idpage, idrol
 insert into database_productionsale.permits (createdat, updatedat, idpage, idrole) values(now(), now(), 15, 1);
 insert into database_productionsale.permits (createdat, updatedat, idpage, idrole) values(now(), now(), 16, 1);
 insert into database_productionsale.permits (createdat, updatedat, idpage, idrole) values(now(), now(), 17, 1);
-insert into database_productionsale.permits (createdat, updatedat, idpage, idrole) values(now(), now(), 18, 1);
-insert into database_productionsale.permits (createdat, updatedat, idpage, idrole) values(now(), now(), 19, 1);
-insert into database_productionsale.permits (createdat, updatedat, idpage, idrole) values(now(), now(), 20, 1);
-insert into database_productionsale.permits (createdat, updatedat, idpage, idrole) values(now(), now(), 21, 1);
