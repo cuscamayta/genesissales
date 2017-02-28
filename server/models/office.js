@@ -17,6 +17,8 @@ module.exports = function (sequelize, DataTypes) {
           Office.hasMany(models.Salesbook, { foreignKey: "idoffice", allowNull: false });
           Office.hasMany(models.Transfer, { foreignKey: "idoffice", allowNull: false });
           Office.hasMany(models.Inventorytransaction, { foreignKey: "idoffice", allowNull: false });
+          Office.hasMany(models.Cashbox, { foreignKey: "idoffice", allowNull: false });
+          Office.hasMany(models.Cashtransaction, { foreignKey: "idoffice", allowNull: false });
         }
       }
     }

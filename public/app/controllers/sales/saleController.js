@@ -56,6 +56,14 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
         $scope.headersale.idoffice = $rootScope.idoffice;
         $scope.headersale.amountinvoice = $scope.sumTotal;
 
+        //TODO
+        //flag=0 sin factura            flag=1 con factura
+        //type=0 venta al contado       type=1 venta al credito
+        //typeprice=0 precio unitario   typeprice=1 mayorista
+        $scope.headersale.flag = 0;
+        $scope.headersale.type = 0;
+        $scope.headersale.typeprice = 0;
+
         if ($scope.headersale.id == 0) {
             var response = SaleService.savesale($scope.headersale);
             response.then(function (res) {
@@ -86,6 +94,7 @@ app.controller('SaleController', function ($scope, SaleService, OfficeService, I
             $scope.detailsale.iditem = item.id;
             $scope.detailsale.cost = item.cost;
             $scope.detailsale.state = 1;
+            $scope.detailsale.discount = 0;
             $scope.listsale.push($scope.detailsale);
         }
         getTotal();

@@ -3,6 +3,7 @@
 module.exports = function (sequelize, DataTypes) {
     var Inventorydetail = sequelize.define("Inventorydetail", {
         price: { type: DataTypes.DECIMAL, allowNull: false },
+        discount: { type: DataTypes.DECIMAL, allowNull: false },
         cost: { type: DataTypes.DECIMAL, allowNull: false },
         quantity: { type: DataTypes.DECIMAL(10, 4), allowNull: false },
     },

@@ -101,6 +101,10 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'VoidedinvoiceController',
             templateUrl: 'app/partials/report/voidedinvoice.html'
         })
+        .when('/cashbox', {
+            controller: 'CashboxController',
+            templateUrl: 'app/partials/treasury/cashbox.html'
+        })
         .when('/login', {
             controller: 'LoginController',
             templateUrl: 'app/partials/home/login.html'

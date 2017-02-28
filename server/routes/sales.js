@@ -60,8 +60,10 @@ function createsale(request, salebook, inventory) {
         fullname: request.body.nameinvoice,
         total: request.body.amountinvoice,
         detail: request.body.detail,
+        type: request.body.type,
+        flag: request.body.flag,
         status: 1,
-        typeprice: 0,
+        typeprice: request.body.typeprice,
         idinventory: inventory.id,
         idoffice: request.body.idoffice,
         idsalesbook: salebook.id,
@@ -73,6 +75,7 @@ function createsale(request, salebook, inventory) {
 function createdetailsales(request, index, inventorydetail, sale) {
     return {
         price: request.body.details[index].price,
+        discount: request.body.details[index].discount,
         quantity: request.body.details[index].quantity,
         status: 1,
         idinventorydetail: inventorydetail.id,
@@ -86,7 +89,7 @@ function createinventory(request, numberinvoice) {
         dateregister: request.body.dateregister,
         total: request.body.amountinvoice,
         code: request.body.dateregister + " - " + numberinvoice,
-        typeprice: 0,
+        typeprice: request.body.typeprice,
         type: 0,
         status: 1,
         idwarehouse: request.body.idwarehouse,
@@ -97,10 +100,12 @@ function createinventory(request, numberinvoice) {
 }
 
 function createdetailinventory(request, index, inventory) {
+    var quantityDet = (request.body.details[index].quantity * -1)
     return {
         price: request.body.details[index].price,
+        discount: request.body.details[index].discount,
         cost: request.body.details[index].cost,
-        quantity: request.body.details[index].quantity,
+        quantity: quantityDet,
         iditem: request.body.details[index].iditem,
         idinventory: inventory.id
     };
@@ -124,22 +129,47 @@ function getdatesinvoice(orderbook, request) {
 router.post('/create', common.isAuthenticate, function (request, response) {
     var numberinvoice = 0;
     return models.sequelize.transaction(function (t) {
+        if (request.body.flag == 0) {
+            var salebook = {};
+            salebook.id = null;
+            return models.Inventorytransaction.create(createinventory(request, numberinvoice), { transaction: t }).then(function (inventory) {
 
-        return models.Setting.findOne({ transaction: t }).then(function (setting) {
-            if (setting) {
-                return models.Orderbook.findOne({ where: { idoffice: request.body.idoffice, status: 2, type: 1 } }, { transaction: t }).then(function (orderbook) {
-                    if (orderbook) {
-                        var datesInvoice = getdatesinvoice(orderbook, request);
-                        if (moment(datesInvoice.datecurrent).isAfter(datesInvoice.deadline)) {
-                            throw new Error("Libro de ordenes vencido");
-                        } else {
-                            return models.Salesbook.max('numberinvoice', { where: { numberorder: orderbook.numberorder } }, { transaction: t }).then(function (nroinvoice) {
-                                if (!nroinvoice) nroinvoice = 0
-                                numberinvoice = (nroinvoice + 1), controlcode = getcodecontrol(request, orderbook.numberorder, numberinvoice, setting.numberid, orderbook.controlkey);
+                return models.Sale.create(createsale(request, salebook, inventory), { transaction: t }).then(function (sale) {
 
-                                return models.Salesbook.create(createsalesbook(request, controlcode, numberinvoice, orderbook.numberorder, orderbook.type, orderbook.id), { transaction: t }).then(function (salebook) {
+                    var inventorydetailpromises = [];
 
-                                    return models.Salesbook.max('numberinvoice', { where: { numberorder: orderbook.numberorder } }, { transaction: t }).then(function (nroinvoice) {
+                    for (var index = 0; index < request.body.details.length; index++) {
+                        var inventorydetailpromise = models.Inventorydetail.create(createdetailinventory(request, index, inventory), { transaction: t });
+                        inventorydetailpromises.push(inventorydetailpromise);
+                    }
+
+                    return Promise.all(inventorydetailpromises).then(function (invdetails) {
+                        var salesdetailpromises = [];
+                        for (var index = 0; index < invdetails.length; index++) {
+
+                            var salesdetailpromise = models.Salesdetail.create(createdetailsales(request, index, invdetails[index].dataValues, sale), { transaction: t });
+                            salesdetailpromises.push(salesdetailpromise, { transaction: t });
+                        }
+                        return Promise.all(salesdetailpromises);
+                    });
+                });
+            });
+        }
+        else {
+            return models.Setting.findOne({ transaction: t }).then(function (setting) {
+
+                if (setting) {
+                    return models.Orderbook.findOne({ where: { idoffice: request.body.idoffice, status: 2, type: 1 } }, { transaction: t }).then(function (orderbook) {
+                        if (orderbook) {
+                            var datesInvoice = getdatesinvoice(orderbook, request);
+                            if (moment(datesInvoice.datecurrent).isAfter(datesInvoice.deadline)) {
+                                throw new Error("Libro de ordenes vencido");
+                            } else {
+                                return models.Salesbook.max('numberinvoice', { where: { numberorder: orderbook.numberorder } }, { transaction: t }).then(function (nroinvoice) {
+                                    if (!nroinvoice) nroinvoice = 0
+                                    numberinvoice = (nroinvoice + 1), controlcode = getcodecontrol(request, orderbook.numberorder, numberinvoice, setting.numberid, orderbook.controlkey);
+
+                                    return models.Salesbook.create(createsalesbook(request, controlcode, numberinvoice, orderbook.numberorder, orderbook.type, orderbook.id), { transaction: t }).then(function (salebook) {
 
                                         return models.Inventorytransaction.create(createinventory(request, numberinvoice), { transaction: t }).then(function (inventory) {
 
@@ -162,20 +192,23 @@ router.post('/create', common.isAuthenticate, function (request, response) {
                                                     return Promise.all(salesdetailpromises);
                                                 });
                                             });
+
                                         });
                                     });
                                 });
-                            });
-                        }
-                    } else {
-                        throw new Error("No existe libro de orden");
-                    }
-                });
-            } else {
-                throw new Error("No existe configuración de la empresa");
-            }
-        });
+                            }
 
+                        } else {
+                            throw new Error("No existe libro de orden");
+                        }
+                    });
+                } else {
+                    throw new Error("No existe configuración de la empresa");
+                }
+
+
+            });
+        }
     }).then(function () {
         response.send(common.response(numberinvoice, "Se guardo correctamente"));
     }).catch(function (err) {

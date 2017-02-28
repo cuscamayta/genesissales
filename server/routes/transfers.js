@@ -52,10 +52,15 @@ function createInventoryOutput(request) {
 }
 
 function createInventoryDetail(request, index, res) {
+    var quantityDet = request.body.details[i].quantity;
+    if (res.type == 0) {
+        quantityDet = (request.body.details[i].quantity * - 1);
+    }
     return {
         price: request.body.details[index].price,
         cost: request.body.details[index].cost,
-        quantity: request.body.details[index].quantity,
+        quantity: quantityDet,
+        discount: 0,
         iditem: request.body.details[index].iditem,
         idinventory: res.id
     };
