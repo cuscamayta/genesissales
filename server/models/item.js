@@ -10,6 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         cost: { type: DataTypes.DECIMAL, allowNull: false },
         serialnumber: { type: DataTypes.STRING, allowNull: true },
         barcode: { type: DataTypes.STRING, allowNull: true },
+        minstock: { type: DataTypes.DECIMAL(10, 4), allowNull: false },
         type: { type: DataTypes.STRING, allowNull: false },
         detail: { type: DataTypes.STRING, allowNull: true }
     },

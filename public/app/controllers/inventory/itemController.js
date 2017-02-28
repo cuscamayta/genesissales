@@ -98,7 +98,8 @@ app.controller('ItemController', function ($scope, ItemService, CommonService) {
             || $scope.edititem.make == null || $scope.edititem.model == null
             || $scope.edititem.unitprice == null || $scope.edititem.wholesaleprice == null
             || $scope.edititem.cost == null || $scope.edititem.serialnumber == null
-            || $scope.edititem.barcode == null || $scope.edititem.type == null;
+            || $scope.edititem.barcode == null || $scope.edititem.type == null
+            || $scope.edititem.minstock == null;
     };
 
     $scope.newitem = function () {
