@@ -15,10 +15,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "9ffd4f_sales",
-    "password": "P@ssw0rd2017",
-    "database": "db_9ffd4f_sales",
-    "host": "mysql5005.smarterasp.net",
+    "username": "root",
+    "password": "P@ssw0rd",
+    "database": "database_productionsale",
+    "host": "127.0.0.1",
     "dialect": "mysql",
     "timezone" : "-04:00"
   }
