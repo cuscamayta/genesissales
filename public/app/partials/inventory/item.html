@@ -65,47 +65,50 @@
                     <input type="text" id="wholesaleprice" class="form-control" ngfocus ng-model="edititem.wholesaleprice" validate="number"
                         required>
 
-                    <label for="cost">Costo <span class="required">*</span></label>
-                    <input type="text" id="cost" class="form-control" ngfocus ng-model="edititem.cost" validate="number" required>
+                        <label for="cost">Costo <span class="required">*</span></label>
+                        <input type="text" id="cost" class="form-control" ngfocus ng-model="edititem.cost" validate="number" required>
 
-                    <label for="serialnumber">Nro serie <span class="required">*</span></label>
-                    <input type="text" id="serialnumber" class="form-control" ngfocus order="1" ng-model="edititem.serialnumber" validate="text-number"
-                        required>
+                        <label for="minstock">Cantidad minima en stock <span class="required">*</span></label>
+                        <input type="text" id="minstock" class="form-control" ngfocus ng-model="edititem.minstock" validate="number" required>
 
-                    <label for="barcode">Codigo de barra <span class="required">*</span></label>
-                    <input type="text" id="barcode" class="form-control" ngfocus order="1" ng-model="edititem.barcode" validate="text-number"
-                        required>
+                        <label for="serialnumber">Nro serie <span class="required">*</span></label>
+                        <input type="text" id="serialnumber" class="form-control" ngfocus order="1" ng-model="edititem.serialnumber" validate="text-number"
+                            required>
 
-                    <label for="detail">Detalle </label>
-                    <input type="text" id="detail" class="form-control" ngfocus ng-model="edititem.detail" required>
+                            <label for="barcode">Codigo de barra <span class="required">*</span></label>
+                            <input type="text" id="barcode" class="form-control" ngfocus order="1" ng-model="edititem.barcode" validate="text-number"
+                                required>
 
-                    <label for="type">Tipo item <span class="required">*</span></label>
-                    <input type="text" id="type" class="form-control" ngfocus ng-model="edititem.type" validate="text-number" required>
+                                <label for="detail">Detalle </label>
+                                <input type="text" id="detail" class="form-control" ngfocus ng-model="edititem.detail" required>
 
-                    <div class="ln_solid"></div>
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <button type="button" class="btn btn-default" ng-click="newitem()" title="Limpiar controles">Cancelar</button>
-                        <button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="saveitem()" title="Guardar">Guardar</button>
-                    </div>
+                                <label for="type">Tipo item <span class="required">*</span></label>
+                                <input type="text" id="type" class="form-control" ngfocus ng-model="edititem.type" validate="text-number" required>
+
+                                <div class="ln_solid"></div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="button" class="btn btn-default" ng-click="newitem()" title="Limpiar controles">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="saveitem()" title="Guardar">Guardar</button>
+                                </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 <div id="modaldeleteitem" class="modal fade bs-example-modal-sm" tabindex="-1" item="dialog" aria-hidden="true" style="display: none;">
-<div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title">Eliminar almacen</h4>
-        </div>
-        <div class="modal-body">
-            <p>¿Esta seguro de eliminar el registro?</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
-            <button type="button" class="btn btn-danger" ng-click="deleteitem()" title="Eliminar">Eliminar</button>
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar almacen</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteitem()" title="Eliminar">Eliminar</button>
+            </div>
         </div>
     </div>
-</div>
 </div>

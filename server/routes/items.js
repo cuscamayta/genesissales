@@ -14,6 +14,7 @@ router.post('/create', common.isAuthenticate, function (request, response) {
         serialnumber: request.body.serialnumber,
         barcode: request.body.barcode,
         type: request.body.type,
+        minstock: request.body.minstock,
         detail: request.body.detail
     }).then(function (res) {
         response.send(common.response(res, "Se guardo correctamente"));
@@ -32,6 +33,7 @@ router.post('/update', common.isAuthenticate, function (request, response) {
         cost: request.body.cost,
         serialnumber: request.body.serialnumber,
         barcode: request.body.barcode,
+        minstock: request.body.minstock,
         type: request.body.type,
         detail: request.body.detail
     }, {

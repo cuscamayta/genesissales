@@ -18,10 +18,15 @@ router.post('/create', common.isAuthenticate, function (request, response) {
             readonly: 0
         }, { transaction: t }).then(function (res) {
             for (var i = 0; i < request.body.details.length; i++) {
+                var quantityDet = request.body.details[i].quantity;
+                if (request.body.type == 0) {
+                    quantityDet = (request.body.details[i].quantity * - 1);
+                }
                 return models.Inventorydetail.create({
                     price: request.body.details[i].price,
+                    discount: 0,
                     cost: request.body.details[i].cost,
-                    quantity: request.body.details[i].quantity,
+                    quantity: quantityDet,
                     iditem: request.body.details[i].iditem,
                     idinventory: res.id
                 }), { transaction: t };
@@ -50,10 +55,15 @@ router.post('/update', common.isAuthenticate, function (request, response) {
         }, { where: { id: request.body.id, readonly: 0 } }, { transaction: t }).then(function (res) {
             for (var i = 0; i < request.body.details.length; i++) {
                 if (request.body.details[i].state == 1) {
+                    var quantityDet = request.body.details[i].quantity;
+                    if (request.body.type == 0) {
+                        quantityDet = (request.body.details[i].quantity * - 1);
+                    }
                     return models.Inventorydetail.create({
                         price: request.body.details[i].price,
+                        discount: 0,
                         cost: request.body.details[i].cost,
-                        quantity: request.body.details[i].quantity,
+                        quantity: quantityDet,
                         iditem: request.body.details[i].iditem,
                         idinventory: request.body.id
                     }), { transaction: t };

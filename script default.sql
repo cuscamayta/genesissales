@@ -18,6 +18,7 @@ insert into database_productionsale.modules (title, class, createdat, updatedat)
 insert into database_productionsale.modules (title, class, createdat, updatedat) values ('Administración', 'fa fa-desktop', now(), now());
 insert into database_productionsale.modules (title, class, createdat, updatedat) values ('Ventas', 'fa fa-table', now(), now());
 insert into database_productionsale.modules (title, class, createdat, updatedat) values ('Inventario', 'fa fa-bar-chart-o', now(), now());
+insert into database_productionsale.modules (title, class, createdat, updatedat) values ('Tesoreria', 'fa fa-money', now(), now());
 insert into database_productionsale.modules (title, class, createdat, updatedat) values ('Reportes', 'fa fa-clone', now(), now());
 
 select * from database_productionsale.pages;
@@ -40,9 +41,13 @@ insert into database_productionsale.pages (title, path, createdat, updatedat, id
 insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Inventario', 'inventory', now(), now(),5);
 insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Traspasos', 'transfer', now(), now(),5);
 
-insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Ventas diarias', 'dailysale', now(), now(),6);
-insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Arqueo de caja', 'dailycash', now(), now(),6);
-insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Facturas anuladas', 'voidedinvoice', now(), now(),6);
+insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Caja', 'cashbox', now(), now(),6);
+insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Transaccion de caja', 'cash', now(), now(),6);
+
+insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Ventas diarias', 'dailysale', now(), now(),7);
+insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Arqueo de caja', 'dailycash', now(), now(),7);
+insert into database_productionsale.pages (title, path, createdat, updatedat, idmodule) values ('Facturas anuladas', 'voidedinvoice', now(), now(),7);
+
 
 select * from database_productionsale.useroffices;
 insert into database_productionsale.useroffices (createdat, updatedat, idoffice, iduser) values(now(), now(), 1, 1);

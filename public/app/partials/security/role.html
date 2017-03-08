@@ -1,57 +1,80 @@
-<div class="row">
-	<div class="col-md-6 col-xs-12">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2>Roles registrados</h2>
-				<div class="clearfix"></div>
+<div class="content">
+	<div class="row">
+
+		<div class="col-md-6">
+
+			<!-- general form elements disabled -->
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Registrar Rol</h3>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<form role="form">
+						<!-- text input -->
+						<div class="form-group">
+							<label>Rol<span class="required">*</span></label>
+							<input type="text" class="form-control" placeholder="rol..." ngfocus order="1" ng-model="editrole.title" validate="text-number"
+								required ng-enter="saverole()">
+						</div>
+					</form>
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<button type="button" class="btn btn-default" ng-click="newrole()" title="Limpiar controles">Cancelar</button>
+					<button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="saverole()" title="Guardar">Guardar</button>
+				</div>
 			</div>
-			<div class="x_content">
-				<div class="table-responsive">
-					<table class="table table-striped jambo_table bulk_action">
-						<thead class="headings">
-							<tr>								
+			<!-- /.box -->
+		</div>
+		<div class="col-md-6">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Roles Registrados</h3>
+
+					<div class="box-tools">
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<li><a href="#">«</a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">»</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body no-padding">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 10px">#</th>
 								<th>Descripción</th>
-								<th></th>
-								<th></th>
+								<th style="width: 30px"></th>
+								<th style="width: 30px"></th>
 							</tr>
 						</thead>
-						<tbody>							
-							<tr class="even pointer" ng-repeat="role in roles | paginate" ng-class="{selectelement:roleselected.id==role.id}">								
+						<tbody>
+							<tr class="even pointer" ng-repeat="role in roles | paginate" ng-class="{selectelement:roleselected.id==role.id}">
+								<td>{{index + 1}}</td>
 								<td>{{role.title}}</td>
 								<td ng-click="selectedrole(role,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
 								<td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedrole(role,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
 							</tr>
 						</tbody>
+
 					</table>
 				</div>
-				<div class="row">
-					<paginator></paginator>
-				</div>
+				<!-- /.box-body -->
 			</div>
-		</div>
-	</div>
-	<div class="col-md-6 col-xs-12">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2>Registrar rol</h2>
-				<div class="clearfix"></div>
-			</div>
-			<div class="x_content">
-				<form class="form-horizontal form-label-left">
-					<p></p>
-					<label for="title">Rol <span class="required">*</span></label>
-					<input type="text" id="title" class="form-control" ngfocus order="1" ng-model="editrole.title" validate="text-number" required ng-enter="saverole()">
+			<!-- /.box -->
 
-					<div class="ln_solid"></div>
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<button type="button" class="btn btn-default" ng-click="newrole()" title="Limpiar controles">Cancelar</button>
-						<button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="saverole()" title="Guardar">Guardar</button>
-					</div>
-				</form>
-			</div>
 		</div>
+
+
 	</div>
 </div>
+
+
 <div id="modaldeleterole" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">

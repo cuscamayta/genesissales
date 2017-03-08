@@ -1,4 +1,4 @@
-app.controller('HomeController', function ($scope, ScheduleService, $location, $rootScope, $timeout, $localStorage) {
+app.controller('HomeController', function ($scope, $location, $rootScope, $timeout, $localStorage) {
 
     init();
 

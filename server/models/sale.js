@@ -26,12 +26,14 @@ module.exports = function (sequelize, DataTypes) {
         total: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
         detail: { type: DataTypes.STRING, allowNull: true },
         typeprice: { type: DataTypes.INTEGER(4), allowNull: false },
+        type: { type: DataTypes.INTEGER(4), allowNull: false },        
+        flag: { type: DataTypes.INTEGER(4), allowNull: false },
         status: { type: DataTypes.INTEGER(4), allowNull: false }
     },
         {
             classMethods: {
                 associate: function (models) {
-                    Sale.belongsTo(models.Salesbook, { foreignKey: "idsalesbook", allowNull: false });
+                    Sale.belongsTo(models.Salesbook, { foreignKey: "idsalesbook", allowNull: true });
                     Sale.belongsTo(models.Warehouse, { foreignKey: "idwarehouse", allowNull: false });
                     Sale.belongsTo(models.User, { foreignKey: "iduser", allowNull: false });
                     Sale.belongsTo(models.Office, { foreignKey: "idoffice", allowNull: false });
