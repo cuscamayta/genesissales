@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="../app/libs/adminlte/css/AdminLTE.min.css">
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-	<link rel="stylesheet" href="../app/libs/adminlte/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="../app/libs/adminlte/css/skins/_all-skins.css">
 
 	<!-- bootstrap-daterangepicker -->
 	<link href="../resources/bootstrap-daterangepicker/css/daterangepicker.css" rel="stylesheet">
@@ -243,6 +243,7 @@
 		<script src="app/directives/enter.js"></script>
 		<script src="app/directives/autocomplete.js"></script>
 		<script src="app/directives/selectAllCheckbox.js"></script>
+		<script src="app/directives/editable.js"></script>
 
 		<!--Controller and Services-->
 		<script src="app/controllers/home/homeController.js"></script>
@@ -290,5 +291,51 @@
 		<script src="app/services/common/commonService.js"></script>
 		<script src="app/controllers/sales/saleController.js"></script>
 </body>
+<style>
+	.bs-glyphicons {
+		padding-left: 0;
+		padding-bottom: 1px;
+		margin-bottom: 20px;
+		list-style: none;
+		overflow: hidden;
+	}
+	
+	.bs-glyphicons li {
+		float: left;
+		width: 25%;
+		height: 73px;
+		padding: 10px;
+		margin: 0 -1px -1px 0;
+		font-size: 12px;
+		line-height: 1.4;
+		text-align: center;
+		border: 1px solid #ddd;
+		margin-right: 2px;
+		cursor: pointer;
+	}
+	
+	.bs-glyphicons .glyphicon {
+		margin-top: 5px;
+		margin-bottom: 10px;
+		font-size: 24px;
+	}
+	
+	.bs-glyphicons .glyphicon-class {
+		display: block;
+		text-align: center;
+		word-wrap: break-word;
+		/* Help out IE10+ with class names */
+	}
+	
+	.bs-glyphicons li:hover {
+		background-color: rgba(86, 61, 124, .1);
+	}
+	
+	@media (min-width: 768px) {
+		.bs-glyphicons li {
+			width: 12.5%;
+		}
+	}
+</style>
 
 </html>

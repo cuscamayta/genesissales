@@ -1,35 +1,44 @@
-<div class="row hidden-print">
-    <div class="col-md-6 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>Venta de productos</h2>
-                <div class="nav navbar-right panel_toolbox">
-                    <input id="quantityadd" type="text" class="form-control" placeholder="Cantidad" ngfocus ng-model="quantityadd" validate="number"
-                        required>
+<section class='content'>
+    <div class="row hidden-print">
+        <div class="col-md-6 col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Venta de Productos</h3>
+
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="searchItem" class="form-control pull-right" ng-model="searchItem" placeholder="Buscar">
+
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <div class="bs-glyphicons">
-                    <ul class="bs-glyphicons-list">
-                        <li data-ng-repeat="item in listitem" ng-click="selecteditem(item)">
-                            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-                            <span class="glyphicon-class">{{item.name}}</span>
-                        </li>
-                    </ul>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="tab-pane">
+                        <ul class="bs-glyphicons">
+                            <li data-ng-repeat="item in listitem | filter:searchItem" ng-click="selecteditem(item)">
+                                <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                                <span class="glyphicon-class">{{item.name}}</span>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
+                <!-- /.box-body -->
+
             </div>
         </div>
-    </div>
-    <div class="col-md-6 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>Items para facturar</h2>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <div>
-                    <table class="table table-striped jambo_table bulk_action">
+        <div class="col-md-6 col-xs-12">
+            <div class="box ">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Items para facturar</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
                         <thead class="headings">
                             <tr>
                                 <th>Item</th>
@@ -42,7 +51,9 @@
                         <tbody>
                             <tr ng-repeat="sale in listsale" ng-class="{selectelement:saledetailselected.id==listsale.id}">
                                 <td>{{sale.name}}</td>
-                                <td>{{sale.quantity}}</td>
+                                <td>
+                                    <cell-editable model="sale.quantity" mask="sale.quantity"></cell-editable>
+                                </td>
                                 <td>{{sale.price}}</td>
                                 <td>{{sale.price * sale.quantity}}</td>
                                 <td ng-click="deletesaledetail(sale)"><i class="fa fa-trash" title="Eliminar"></i></td>
@@ -59,107 +70,134 @@
                         </tfoot>
                     </table>
                 </div>
+                <!-- /.box-body -->
 
-                <form class="form-horizontal form-label-left">
 
-                    <label for="dateregister">Fecha <span class="required">*</span></label>
-                    <div class="form-group has-feedback">
-                        <input type="text" id="dateregister" class="form-control has-feedback-left active" ngfocus ng-model="headersale.dateregister"
-                            validate="date" required data-inputmask="'mask': '99/99/9999'" aria-describedby="inputSuccess2Status">
-                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                        <span id="inputSuccess2Status" class="sr-only">(success)</span>
+            </div>
+            <div class="box ">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Datos de la factura</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="dateregister">Fecha<span class="required">*</span></label>
+                            <div class="input-group">
+                                <input type="text" id="dateregister" class="form-control" ngfocus ng-model="headersale.dateregister" validate="date" required
+                                    data-inputmask="'mask': '99/99/9999'" aria-describedby="inputSuccess2Status">
+                                    <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="numbernitinvoice">Nro de NIT<span class="required">*</span></label>
+                            <input type="text" id="numbernitinvoice" class="form-control" ngfocus ng-model="headersale.numbernitinvoice" validate="number"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameinvoice">Nombre de la factura<span class="required">*</span></label>
+                            <input type="text" id="nameinvoice" class="form-control textUpperCase" ngfocus ng-model="headersale.nameinvoice" validate="text-number"
+                                required>
+                        </div>
+
                     </div>
-
-                    <label for="numbernitinvoice">Nro de NIT <span class="required">*</span></label>
-                    <input type="text" id="numbernitinvoice" class="form-control" ngfocus ng-model="headersale.numbernitinvoice" validate="number"
-                        required>
-
-                    <label for="nameinvoice">Nombre para la factura <span class="required">*</span></label>
-                    <input type="text" id="nameinvoice" class="form-control textUpperCase" ngfocus ng-model="headersale.nameinvoice" validate="text-number"
-                        required>
-
-                    <div class="ln_solid"></div>
-                    <div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
                         <button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="savesale()" title="Facturar"><i class="fa fa-credit-card"></i> Guardar</button>
+                        <button type="button" class="btn btn-primary" ng-disabled="validatecontrols()" ng-click="savesale()" title="Facturar"><i class="fa fa-credit-card"></i> Facturar</button>
+                        <div class="form-group">
+                            <label>
+                            <div class="icheckbox_minimal-blue checked" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="checkbox" class="minimal" checked="" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </label>
+                                        <label>
+                            <div class="icheckbox_minimal-blue" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="checkbox" class="minimal" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </label>
+                                        <label>
+                            <div class="icheckbox_minimal-blue disabled" aria-checked="false" aria-disabled="true" style="position: relative;"><input type="checkbox" class="minimal" disabled="" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            Facturar
+                            </label>
+                        </div>
                     </div>
 
                 </form>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 
 <div style="width: 265px; font-size: 11px;" id="invoice-file">
-<p style="text-align: center"><b>{{datainvoice.titleCompany}}</b></p>
-<p style="text-align: center">{{datainvoice.titleOffice}}<br /> {{datainvoice.addressOffice}} Telf: {{datainvoice.phoneOffice}}<br /> {{datainvoice.detailOffice}}</p>
-<p style="text-align: center">------------------------------------------------------------</p>
-<p style="text-align: center">FACTURA ORIGINAL</p>
-<p style="text-align: center">------------------------------------------------------------</p>
-<p style="text-align: center">NIT: {{datainvoice.numberidCompany}}<br /> FACTURA Nro: {{datainvoice.numberInvoice}}<br /> AUTORIZACION: {{datainvoice.numberorderInvoice}}</p>
-<p style="text-align: center">------------------------------------------------------------</p>
-<p style="text-align: center">FECHA: {{datainvoice.dateInvoice}}<br /> SENOR(es): {{datainvoice.nameInvoice}}<br /> NIT/CI: {{datainvoice.numbernitInvoice}}</p>
+    <p style="text-align: center"><b>{{datainvoice.titleCompany}}</b></p>
+    <p style="text-align: center">{{datainvoice.titleOffice}}<br /> {{datainvoice.addressOffice}} Telf: {{datainvoice.phoneOffice}}<br /> {{datainvoice.detailOffice}}</p>
+    <p style="text-align: center">------------------------------------------------------------</p>
+    <p style="text-align: center">FACTURA ORIGINAL</p>
+    <p style="text-align: center">------------------------------------------------------------</p>
+    <p style="text-align: center">NIT: {{datainvoice.numberidCompany}}<br /> FACTURA Nro: {{datainvoice.numberInvoice}}<br /> AUTORIZACION: {{datainvoice.numberorderInvoice}}</p>
+    <p style="text-align: center">------------------------------------------------------------</p>
+    <p style="text-align: center">FECHA: {{datainvoice.dateInvoice}}<br /> SENOR(es): {{datainvoice.nameInvoice}}<br /> NIT/CI: {{datainvoice.numbernitInvoice}}</p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th style="text-align: center">CANT.</th>
-<th style="text-align: center">DESCRIPCION</th>
-<th style="text-align: center">PRECIO</th>
-<th style="text-align: center">TOTAL</th>
-</tr>
-</thead>
-<tbody>
-    <tr ng-repeat="detail in detailinvoice">
-        <td>{{detail.quantity}}</td>
-        <td>{{detail.Item.name}}</td>
-        <td>{{detail.price}}</td>
-        <td>{{detail.price * detail.quantity}}</td>
-    </tr>
-</tbody>
-<tfoot>
-    <td></td>
-    <td></td>
-    <td>TOTAL Bs</td>
-    <td>{{datainvoice.total}}</td>
-</tfoot>
-</table>
-<p>Son: {{datainvoice.totalliteral}}</p>
-<p style="text-align: center">------------------------------------------------------------</p>
-<p>CÓDIGO DE CONTROL: {{datainvoice.codecontrolInvoice}}</p>
-<p>FECHA LIMITE DE EMISION {{datainvoice.deadline}}</p>
-<p><label id="qrinvoice"></label></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="text-align: center">CANT.</th>
+                <th style="text-align: center">DESCRIPCION</th>
+                <th style="text-align: center">PRECIO</th>
+                <th style="text-align: center">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="detail in detailinvoice">
+                <td>{{detail.quantity}}</td>
+                <td>{{detail.Item.name}}</td>
+                <td>{{detail.price}}</td>
+                <td>{{detail.price * detail.quantity}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <td></td>
+            <td></td>
+            <td>TOTAL Bs</td>
+            <td>{{datainvoice.total}}</td>
+        </tfoot>
+    </table>
+    <p>Son: {{datainvoice.totalliteral}}</p>
+    <p style="text-align: center">------------------------------------------------------------</p>
+    <p>CÓDIGO DE CONTROL: {{datainvoice.codecontrolInvoice}}</p>
+    <p>FECHA LIMITE DE EMISION {{datainvoice.deadline}}</p>
+    <p><label id="qrinvoice"></label></p>
 
-<p style="text-align: center">{{datainvoice.noteCompany}}</p>
+    <p style="text-align: center">{{datainvoice.noteCompany}}</p>
 
-<p style="text-align: center">------------------------------------------------------------
-<br /> GRACIAS POR SU PREFERENCIA</p>
-<p style="text-align: center">------------------------------------------------------------</p>
+    <p style="text-align: center">------------------------------------------------------------
+        <br /> GRACIAS POR SU PREFERENCIA</p>
+    <p style="text-align: center">------------------------------------------------------------</p>
 
 </div>
 <style>
-	@media print {
-		label {
-			display: block;
-			margin: 5px 0;
-		}
-		.sale {
-			padding-top: 10px;
-		}
-		#invoice-file {
-			font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
-			font-weight: normal;
-			font-style: normal;
-			width: 100% !important;
-			font-size: 14px !important;
-			text-align: center;
-			display: block !important;
-		}
-		#invoice-file div {
-			border-bottom: solid #BBB 1px;
-		}
-		#invoice-file .footer {
-			border-bottom: none;
-		}
-	}
+    @media print {
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+        .sale {
+            padding-top: 10px;
+        }
+        #invoice-file {
+            font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+            font-weight: normal;
+            font-style: normal;
+            width: 100% !important;
+            font-size: 14px !important;
+            text-align: center;
+            display: block !important;
+        }
+        #invoice-file div {
+            border-bottom: solid #BBB 1px;
+        }
+        #invoice-file .footer {
+            border-bottom: none;
+        }
+    }
 </style>
